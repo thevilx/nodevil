@@ -1,5 +1,12 @@
+
+
+<div style="text-align:center;">
+
+<img src="https://github.com/user-attachments/assets/1826b6dd-298e-489c-b1f3-b2dc77f964ca" width="500" alt="Logo">
+</div>
+
 # Nodevil - Beta
-No evil deadline shall reach you
+``` -- No evil deadline shall reach you -- ```
 
 A robust Node.js backend framework built with TypeScript and Express.js. Features automated CRUD operations with a base class system, JWT authentication with role-based permissions, multi-language support with automatic localization, file storage (local/S3), comprehensive security middlewares, and auto-generated API documentation.
 
