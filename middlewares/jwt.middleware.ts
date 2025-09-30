@@ -8,13 +8,24 @@ const jwtMiddleware = expressjwt({
   algorithms: ['HS256'],
   requestProperty: 'access_token',
   credentialsRequired: false, // Allow requests to proceed even if no token is provided
-  getToken: function fromCookies(req) {
-    const token = req?.headers?.access_token || req.cookies?.access_token;
+  getToken: function fromHeadersOrCookies(req) {
+    let token = null;
+    
+    // Check for Bearer token in Authorization header
+    const authHeader = req?.headers?.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      token = authHeader.substring(7); // Remove 'Bearer ' prefix
+    }
+    
+    // Fall back to cookies (try multiple standard cookie names)
+    if (!token) {
+      token = req.cookies?.token || req.cookies?.auth_token || req.cookies?.access_token;
+    }
+    
     if (token) {
       if (!isTokenExpired(token)) {
         const decodedToken = decodeToken(token);
         req.userId = decodedToken.id;
-
         return token;
       }
     }

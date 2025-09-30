@@ -32,10 +32,10 @@ describe('Mini Profile API Integration Tests', () => {
   });
 
   describe(`GET ${apiBaseUrl}/admin`, () => {
-    it('should return admin user mini profile for authenticated admin (header token)', async () => {
+    it('should return admin user mini profile for authenticated admin (Bearer token)', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', adminToken)
+        .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
 
       expect(response.body).toEqual({
@@ -48,7 +48,7 @@ describe('Mini Profile API Integration Tests', () => {
     it('should return admin user mini profile for authenticated admin (cookie token)', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('Cookie', [`access_token=${adminToken}`]);
+        .set('Cookie', [`token=${adminToken}`]);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual({
@@ -65,12 +65,12 @@ describe('Mini Profile API Integration Tests', () => {
     it('should return 401 for invalid token', async () => {
       await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', 'invalid-token')
+        .set('Authorization', 'Bearer invalid-token')
         .expect(401);
     });
 
     it('should return 403 for customer trying to access admin endpoint', async () => {
-      await request(app).get(`${apiBaseUrl}/admin`).set('access_token', customerToken).expect(403);
+      await request(app).get(`${apiBaseUrl}/admin`).set('Authorization', `Bearer ${customerToken}`).expect(403);
     });
 
     it('should return 403 when admin user is deleted', async () => {
@@ -88,7 +88,7 @@ describe('Mini Profile API Integration Tests', () => {
 
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', tempAdminToken);
+        .set('Authorization', `Bearer ${tempAdminToken}`);
       expect(response.status).toBe(403);
     });
 
@@ -102,7 +102,7 @@ describe('Mini Profile API Integration Tests', () => {
 
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', tokenWithoutAvatar)
+        .set('Authorization', `Bearer ${tokenWithoutAvatar}`)
         .expect(200);
 
       expect(response.body).toEqual({
@@ -114,10 +114,10 @@ describe('Mini Profile API Integration Tests', () => {
   });
 
   describe(`GET ${apiBaseUrl}/customer`, () => {
-    it('should return customer user mini profile for authenticated customer (header token)', async () => {
+    it('should return customer user mini profile for authenticated customer (Bearer token)', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/customer`)
-        .set('access_token', customerToken)
+        .set('Authorization', `Bearer ${customerToken}`)
         .expect(200);
 
       expect(response.body).toEqual({
@@ -130,7 +130,7 @@ describe('Mini Profile API Integration Tests', () => {
     it('should return customer user mini profile for authenticated customer (cookie token)', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/customer`)
-        .set('Cookie', [`access_token=${customerToken}`])
+        .set('Cookie', [`token=${customerToken}`])
         .expect(200);
 
       expect(response.body).toEqual({
@@ -145,7 +145,7 @@ describe('Mini Profile API Integration Tests', () => {
     });
 
     it('should return 403 for admin trying to access customer endpoint', async () => {
-      await request(app).get(`${apiBaseUrl}/customer`).set('access_token', adminToken).expect(403);
+      await request(app).get(`${apiBaseUrl}/customer`).set('Authorization', `Bearer ${adminToken}`).expect(403);
     });
 
     it('should return 403 when customer user is deleted', async () => {
@@ -161,15 +161,41 @@ describe('Mini Profile API Integration Tests', () => {
 
       await request(app)
         .get(`${apiBaseUrl}/customer`)
-        .set('access_token', tempAdminToken)
+        .set('Authorization', `Bearer ${tempAdminToken}`)
         .expect(403);
     });
 
     it('should handle expired token', async () => {
       await request(app)
         .get(`${apiBaseUrl}/customer`)
-        .set('access_token', 'expired.token.here')
+        .set('Authorization', 'Bearer expired.token.here')
         .expect(401);
+    });
+
+    it('should support auth_token cookie name', async () => {
+      const response = await request(app)
+        .get(`${apiBaseUrl}/customer`)
+        .set('Cookie', [`auth_token=${customerToken}`])
+        .expect(200);
+
+      expect(response.body).toEqual({
+        _id: testCustomer?._id?.toString(),
+        full_name: 'Test Customer User',
+        avatar: 'https://example.com/customer-avatar.jpg',
+      });
+    });
+
+    it('should support legacy access_token cookie name', async () => {
+      const response = await request(app)
+        .get(`${apiBaseUrl}/customer`)
+        .set('Cookie', [`access_token=${customerToken}`])
+        .expect(200);
+
+      expect(response.body).toEqual({
+        _id: testCustomer?._id?.toString(),
+        full_name: 'Test Customer User',
+        avatar: 'https://example.com/customer-avatar.jpg',
+      });
     });
   });
 
@@ -181,7 +207,7 @@ describe('Mini Profile API Integration Tests', () => {
         .spyOn(UserCrud, 'tryFindById')
         .mockRejectedValue(new Error('Database connection failed'));
 
-      await request(app).get(`${apiBaseUrl}/admin`).set('access_token', adminToken).expect(500);
+      await request(app).get(`${apiBaseUrl}/admin`).set('Authorization', `Bearer ${adminToken}`).expect(500);
 
       // Restore original method
       UserCrud.tryFindById = originalFindById;
@@ -196,7 +222,7 @@ describe('Mini Profile API Integration Tests', () => {
 
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', fakeToken)
+        .set('Authorization', `Bearer ${fakeToken}`)
         .expect(403);
 
       expect(response.body).toHaveProperty('message');
@@ -207,7 +233,7 @@ describe('Mini Profile API Integration Tests', () => {
     it('should return response with correct content-type header', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', adminToken)
+        .set('Authorization', `Bearer ${adminToken}`)
         .expect(200)
         .expect('Content-Type', /json/);
 
@@ -219,7 +245,7 @@ describe('Mini Profile API Integration Tests', () => {
     it('should ensure _id is returned as string', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/customer`)
-        .set('access_token', customerToken)
+        .set('Authorization', `Bearer ${customerToken}`)
         .expect(200);
 
       expect(typeof response.body._id).toBe('string');
@@ -228,7 +254,7 @@ describe('Mini Profile API Integration Tests', () => {
     it('should not expose sensitive user data', async () => {
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', adminToken)
+        .set('Authorization', `Bearer ${adminToken}`)
         .expect(200);
 
       // Ensure sensitive fields are not returned
@@ -245,7 +271,7 @@ describe('Mini Profile API Integration Tests', () => {
       const requests = Array(5)
         .fill(null)
         .map(() =>
-          request(app).get(`${apiBaseUrl}/admin`).set('access_token', adminToken).expect(200)
+          request(app).get(`${apiBaseUrl}/admin`).set('Authorization', `Bearer ${adminToken}`).expect(200)
         );
 
       const responses = await Promise.all(requests);
@@ -259,7 +285,7 @@ describe('Mini Profile API Integration Tests', () => {
       const requests = Array(5)
         .fill(null)
         .map(() =>
-          request(app).get(`${apiBaseUrl}/customer`).set('access_token', customerToken).expect(200)
+          request(app).get(`${apiBaseUrl}/customer`).set('Authorization', `Bearer ${customerToken}`).expect(200)
         );
 
       const responses = await Promise.all(requests);
@@ -278,7 +304,7 @@ describe('Mini Profile API Integration Tests', () => {
 
       const response = await request(app)
         .get(`${apiBaseUrl}/admin`)
-        .set('access_token', tokenLongName)
+        .set('Authorization', `Bearer ${tokenLongName}`)
         .expect(200);
 
       expect(response.body.full_name).toBe(longName);

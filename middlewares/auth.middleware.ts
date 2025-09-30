@@ -9,8 +9,19 @@ const authMiddleware =
   (permissions?: string[]) =>
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      // Extract token from headers or cookies
-      const token = req.headers.access_token || req.cookies?.access_token;
+      // Extract token from Authorization header (Bearer token) or cookies
+      let token = null;
+      
+      // Check for Bearer token in Authorization header
+      const authHeader = req.headers.authorization;
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        token = authHeader.substring(7); // Remove 'Bearer ' prefix
+      }
+      
+      // Fall back to cookies (try multiple standard cookie names)
+      if (!token) {
+        token = req.cookies?.token || req.cookies?.auth_token || req.cookies?.access_token;
+      }
       if (!token) {
         throw new UnAuthorizedError(i18n.t('errors.unauthorized-access'));
       }
