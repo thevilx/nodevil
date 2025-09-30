@@ -1,0 +1,27 @@
+{
+  "login-successful": "Login successful",
+  "logout-successfully": "Logged out successfully",
+  "register-successful": "Registration successful",
+  "user-not-found": "User not found",
+  "no-file-received": "No file received",
+  "role_not_found": "Role not found",
+  "invalid-file-type-upload-only-image": "Invalid file type. Please upload only image files",
+  "unmatch-password": "Passwords do not match",
+  "your-account-is-disabled": "Your account has been disabled",
+  "phone-number-taken": "This phone number is already registered",
+  "email-taken": "This email address is already registered",
+  "user-exists-already": "User already exists",
+  "cant-login-with-this-role": "Cannot login with this role",
+  "invalid-validation-code": "Invalid verification code",
+  "verification-code-expired": "Verification code has expired",
+  "invalid-phone-number-format": "Invalid phone number format",
+  "please-wait-x-minutes-before-requesting-new-verification-code": "Please wait {{minutes}} minutes before requesting a new verification code",
+  "too-many-verification-attempts": "Too many verification attempts. Please try again later",
+  "verification-code-has-been-sent": "Verification code has been sent",
+  "verification-request-not-found": "Verification request not found",
+  "test-not-found": "Test not found",
+  "errors": {
+    "unexpected": "An unexpected error occurred. Please try again",
+    "unauthorized-access": "You dont have access to this resource"
+  }
+}

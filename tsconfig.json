@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["node", "jest"],
+    "typeRoots": ["./node_modules/@types", "./types"]
+  },
+  "include": ["locales/**/*.json", "**/*"],
+  "exclude": ["node_modules", "public_html", "public", "dist"]
+}
