@@ -159,10 +159,160 @@ router.get('/users', authMiddleware([USER_PERMISSION.FETCH_USERS]), getUsersCont
 ```
 
 ### Multi-Language Support
-```typescript
-// Automatic translation based on request headers ( i18n config )
-const localizedData = await UserCrud.findById(id, { returnAsTranslated: true });
+
+Nodevil provides comprehensive multi-language support with automatic translation capabilities based on request headers, query parameters, or cookies.
+
+#### Configuration
+
+The framework currently supports **English (en)** and **Farsi (fa)** languages with Farsi as the default base language. Configure languages in your environment:
+
+```bash
+# .env
+BASE_LANGUAGE=fa  # Default: fa (Farsi)
 ```
+
+Supported languages are defined in `config/app/app_config.ts`:
+```typescript
+SUPPORTED_LANGUAGES: [AppLanguage.FARSI, AppLanguage.ENGLISH]
+BASE_LANGUAGE: AppLanguage.FARSI
+```
+
+#### Language Detection
+
+The system automatically detects language preference from multiple sources (in priority order):
+1. **Query Parameter**: `?lang=en` or `?locale=en`
+2. **Accept-Language Header**: Standard HTTP header
+3. **i18next Cookie**: Persistent language preference
+4. **Default**: Falls back to base language (Farsi)
+
+#### Translation Files
+
+Translation keys are stored in JSON files under `/locales/`:
+```
+locales/
+├── en/
+│   └── translations.json
+└── fa/
+    └── translations.json
+```
+
+Example translation file structure:
+```json
+{
+  "login-successful": "Login successful",
+  "user-not-found": "User not found",
+  "errors": {
+    "unexpected": "An unexpected error occurred"
+  }
+}
+```
+
+#### Multi-Language Database Fields
+
+For database models that need multi-language content, use the `multiLanguageSchema`:
+
+```typescript
+import { multiLanguageSchema, MultiLanguageContent } from '../multi_language.schema';
+
+const productSchema = new Schema({
+  name: multiLanguageSchema,  // { en: string, fa: string }
+  description: multiLanguageSchema,
+  price: Number
+});
+
+// Interface
+interface IProduct {
+  name: MultiLanguageContent;
+  description: MultiLanguageContent;
+  price: number;
+}
+```
+
+#### CRUD Operations with Translation
+
+**Automatic Translation**: Use `returnAsTranslated: true` to automatically return content in the current request language:
+
+```typescript
+// Returns data in the current request language (en/fa)
+const user = await UserCrud.findById(id, { returnAsTranslated: true });
+
+// Pagination with translation
+const products = await ProductCrud.paginate({
+  page: 1,
+  pageSize: 10,
+  returnAsTranslated: true  // Auto-translates multi-language fields
+});
+
+// Search with translation
+const results = await ProductCrud.find(
+  { price: { $gte: 100 } },
+  { returnAsTranslated: true }
+);
+```
+
+**Manual Language Selection**: Override request language for specific operations:
+
+```typescript
+// Force specific language regardless of request headers
+i18n.setLanguage('en');
+const englishData = await ProductCrud.findById(id, { returnAsTranslated: true });
+
+i18n.setLanguage('fa');
+const farsiData = await ProductCrud.findById(id, { returnAsTranslated: true });
+```
+
+#### Output Examples
+
+**Without Translation** (`returnAsTranslated: false`):
+```json
+{
+  "name": {
+    "en": "Product Name",
+    "fa": "نام محصول"
+  },
+  "description": {
+    "en": "Product description",
+    "fa": "توضیحات محصول"
+  }
+}
+```
+
+**With Translation** (`returnAsTranslated: true` + `Accept-Language: en`):
+```json
+{
+  "name": "Product Name",
+  "description": "Product description"
+}
+```
+
+**With Translation** (`returnAsTranslated: true` + `Accept-Language: fa`):
+```json
+{
+  "name": "نام محصول",
+  "description": "توضیحات محصول"
+}
+```
+
+#### Using Translations in Code
+
+```typescript
+import { i18n } from './config/i18n/i18n';
+
+// Type-safe translations with interpolation
+const message = i18n.t('please-wait-x-minutes-before-requesting-new-verification-code', {
+  minutes: 5
+});
+
+// Error messages are automatically translated
+throw new ValidationError(i18n.t('user-not-found'));
+```
+
+#### Adding New Languages
+
+1. **Create translation file**: Add new JSON file in `/locales/{language_code}/translations.json`
+2. **Update schema**: Add language code to `multiLanguageSchema` in `models/multi_language.schema.ts`
+3. **Update config**: Add language to `SUPPORTED_LANGUAGES` in `app_config.ts`
+4. **Update interface**: Add language property to `MultiLanguageContent` interface
 
 ### File Storage
 ```typescript
