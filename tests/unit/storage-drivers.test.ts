@@ -13,7 +13,7 @@ jest.mock('@aws-sdk/client-s3', () => ({
   PutObjectCommand: jest.fn(), // if you're also testing uploads
 }));
 // Mock the AppConfig
-jest.mock('../../config/config', () => ({
+jest.mock('../../config/app/app_config', () => ({
   AppConfig: {
     STORAGE_DRIVER: 'local',
     AWS_S3_REGION: 'us-east-1',

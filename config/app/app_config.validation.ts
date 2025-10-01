@@ -1,6 +1,5 @@
 import { AppConfig } from "./app_config";
 
-
 export const validateConfig = () => {
     const errors: string[] = [];
 

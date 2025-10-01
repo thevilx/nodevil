@@ -1,5 +1,10 @@
+import { App } from "supertest/types";
+import { AppLanguage } from "../i18n/app_language";
 
 export interface IAppConfig {
+    BASE_LANGUAGE: AppLanguage;
+    SUPPORTED_LANGUAGES: AppLanguage[];
+
     NODE_ENV: 'development' | 'production' | 'test';
     iS_PRODUCTION?: boolean;
     APP_URL: string;

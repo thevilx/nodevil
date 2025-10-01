@@ -1,0 +1,27 @@
+{
+  "login-successful": "ورود موفقیت‌آمیز بود",
+  "logout-successfully": "خروج با موفقیت انجام شد",
+  "register-successful": "ثبت‌نام موفقیت‌آمیز بود",
+  "user-not-found": "کاربر یافت نشد",
+  "no-file-received": "فایلی دریافت نشد",
+  "role_not_found": "نقش یافت نشد",
+  "invalid-file-type-upload-only-image": "نوع فایل نامعتبر است. لطفاً فقط فایل‌های تصویری آپلود کنید",
+  "unmatch-password": "رمزهای عبور مطابقت ندارند",
+  "your-account-is-disabled": "حساب کاربری شما غیرفعال شده است",
+  "phone-number-taken": "این شماره تلفن قبلاً ثبت شده است",
+  "email-taken": "این آدرس ایمیل قبلاً ثبت شده است",
+  "user-exists-already": "کاربر از قبل وجود دارد",
+  "cant-login-with-this-role": "امکان ورود با این نقش وجود ندارد",
+  "invalid-validation-code": "کد تأیید نامعتبر است",
+  "verification-code-expired": "کد تأیید منقضی شده است",
+  "invalid-phone-number-format": "فرمت شماره تلفن نامعتبر است",
+  "please-wait-x-minutes-before-requesting-new-verification-code": "لطفاً {{minutes}} دقیقه صبر کنید قبل از درخواست کد تأیید جدید",
+  "too-many-verification-attempts": "تلاش‌های زیادی برای تأیید انجام شده است. لطفاً بعداً دوباره تلاش کنید",
+  "verification-code-has-been-sent": "کد تأیید ارسال شد",
+  "verification-request-not-found": "درخواست تأیید یافت نشد",
+  "test-not-found": "تست یافت نشد",
+  "errors": {
+    "unexpected": "خطای غیرمنتظره‌ای رخ داد. لطفاً دوباره تلاش کنید",
+    "unauthorized-access": "شما به این منبع دسترسی ندارید"
+  }
+}

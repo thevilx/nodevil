@@ -1,7 +1,8 @@
 import Joi from 'joi';
 import { CookieOptions } from 'express';
-import { AppLanguages, i18n } from '../config/i18n/i18n';
+import { i18n } from '../config/i18n/i18n';
 import { BadRequestError } from './errors';
+import { AppLanguage } from '../config/i18n/app_language';
 
 export function getCookieOptions(): CookieOptions {
   return {
@@ -96,7 +97,7 @@ export function extractPaginationFieldsFromQuery(query: any) {
  * @param language string ( must be valid in i18n )
  * @returns
  */
-export function applyLocalization(data: any, language?: AppLanguages): any {
+export function applyLocalization(data: any, language?: AppLanguage): any {
   const currentLanguage = language || i18n.currentLanguage;
 
   // Helper to determine if a value is a plain object

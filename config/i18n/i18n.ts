@@ -1,15 +1,13 @@
-import Polyglot from 'node-polyglot';
 import fs from 'fs';
+import Polyglot from 'node-polyglot';
 import path from 'path';
-import { JOI_AR_TRANSLATION, JOI_EN_TRANSLATION, TranslationKeys } from './translation_keys';
+import { JOI_EN_TRANSLATION, JOI_FA_TRANSLATION, TranslationKeys } from './translation_keys';
+import { AppConfig } from '../app/app_config';
+import { UnAuthorizedError } from '../../utils/errors';
+import { AppLanguage } from './app_language';
 
 interface TranslationPhrases {
   [key: string]: string;
-}
-
-export enum AppLanguages {
-  ENGLISH = 'en',
-  ARABIC = 'ar',
 }
 
 class I18n {
@@ -17,10 +15,14 @@ class I18n {
   private supportedLanguages: string[];
   public currentLanguage: string;
 
-  constructor(lang: AppLanguages = AppLanguages.ENGLISH) {
-    this.supportedLanguages = [AppLanguages.ENGLISH, AppLanguages.ARABIC];
+  constructor(lang: AppLanguage = AppLanguage.ENGLISH) {
+    this.supportedLanguages = AppConfig.SUPPORTED_LANGUAGES;
 
-    this.currentLanguage = AppLanguages.ENGLISH;
+    this.currentLanguage = AppConfig.BASE_LANGUAGE;
+
+    if (!this.supportedLanguages.includes(lang)) {
+      throw new UnAuthorizedError('invalid i18n language');
+    }
 
     this.polyglot = new Polyglot({
       locale: lang,
@@ -47,7 +49,7 @@ class I18n {
   }
 
   public detectLanguage(acceptLanguageHeader: string): string {
-    const preferredLang = acceptLanguageHeader.split(',')[0].split('-')[0] as AppLanguages;
+    const preferredLang = acceptLanguageHeader.split(',')[0].split('-')[0] as AppLanguage;
     return this.supportedLanguages.includes(preferredLang)
       ? preferredLang
       : this.supportedLanguages[0];
@@ -56,7 +58,7 @@ class I18n {
   public getJoiTranslations() {
     return {
       en: JOI_EN_TRANSLATION,
-      ar: JOI_AR_TRANSLATION,
+      fa: JOI_FA_TRANSLATION,
     };
   }
 

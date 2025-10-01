@@ -1,6 +1,14 @@
+import dotenv from "dotenv";
+import { AppLanguage } from "../i18n/app_language";
 import { IAppConfig } from "./app_config.d";
 
+dotenv.config();
+
 export const AppConfig: IAppConfig = {
+
+    BASE_LANGUAGE: (process.env.BASE_LANGUAGE as AppLanguage) || AppLanguage.FARSI,
+    SUPPORTED_LANGUAGES: [AppLanguage.FARSI, AppLanguage.ENGLISH],
+
     NODE_ENV: (process.env.NODE_ENV as 'development' | 'production' | 'test') || 'development',
     iS_PRODUCTION: process.env.NODE_ENV === 'production',
     APP_URL: process.env.APP_URL || 'http://localhost:3000',
@@ -33,3 +41,5 @@ export const AppConfig: IAppConfig = {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 
 };
+
+

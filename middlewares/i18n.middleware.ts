@@ -1,11 +1,12 @@
-import { AppLanguages, i18n } from '../config/i18n/i18n';
+import { AppConfig } from '../config/app/app_config';
+import { i18n } from '../config/i18n/i18n';
 
 function i18nMiddleware(req: any, res: any, next: any) {
   const queryLang = req.query.lang || req.query.locale;
   const cookieLang = req.cookies?.i18next;
   const headerLang = req.headers['accept-language'];
 
-  const lang = i18n.detectLanguage(queryLang || headerLang || cookieLang || AppLanguages.ENGLISH);
+  const lang = i18n.detectLanguage(queryLang || headerLang || cookieLang || AppConfig.BASE_LANGUAGE);
 
   // If language is set via query param, update the cookie
   if (!queryLang && !headerLang && !cookieLang) {

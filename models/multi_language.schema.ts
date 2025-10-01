@@ -4,7 +4,7 @@ import { Schema } from 'mongoose';
 export const multiLanguageSchema = new Schema(
   {
     en: String,
-    ar: String,
+    fa: String,
   },
   {
     _id: false, // This prevents Mongoose from automatically adding an _id field
@@ -13,5 +13,5 @@ export const multiLanguageSchema = new Schema(
 
 export interface MultiLanguageContent {
   en: string;
-  ar: string;
+  fa: string;
 }
