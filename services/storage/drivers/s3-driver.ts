@@ -4,7 +4,7 @@ import {
   S3Client,
   DeleteObjectCommand,
 } from '@aws-sdk/client-s3';
-import { AppConfig } from '../../../config/app_config';
+import { AppConfig } from '../../../config/app/app_config';
 import { StorageDriverInterface, UploadResult } from '../storage-driver';
 
 export class S3Driver implements StorageDriverInterface {

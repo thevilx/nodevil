@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import mongoose from 'mongoose';
-import { AppConfig } from '../config/app_config';
+import { AppConfig } from '../config/app/app_config';
 
 async function ConnectToMongo() {
   try {

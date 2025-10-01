@@ -1,16 +1,16 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { AppConfig } from './app_config';
+import { AppConfig } from './app/app_config';
 
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Server App API',
+      title: 'Server Api',
       version: '1.0.0',
       description: 'A comprehensive Express.js server with MongoDB integration',
       contact: {
-        name: 'Ideallco',
-        email: 'contact@ideallco.com',
+        name: 'Thevilx',
+        email: 'amin.mir1380@gmail.com',
       },
     },
     servers: [

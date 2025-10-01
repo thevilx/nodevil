@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { IUser } from '../models/user/user';
-import { AppConfig } from '../config/app_config';
+import { AppConfig } from '../config/app/app_config';
 
 const secretKey = AppConfig.JWT_SECRET || 'your-secret-key';
 

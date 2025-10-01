@@ -1,23 +1,36 @@
 import { IRolesEnum } from '../models/role/roles.enum';
 import { USER_PERMISSIONS } from '../models/user/user.permissions';
 
+// -------------------------------------------------------------------------------------------------
+// Panel Permissions
+// -------------------------------------------------------------------------------------------------
+
 export enum PANEL_PERMISSIONS {
   CUSTOMER = 'CUSTOMER_PANEL',
   ADMIN = 'ADMIN_PANEL',
 }
 
-const CUSTOMER_PERMISSIONS: string[] = [PANEL_PERMISSIONS.CUSTOMER];
+// -------------------------------------------------------------------------------------------------
+// Permissions by Role
+// -------------------------------------------------------------------------------------------------
+
+const CUSTOMER_PERMISSIONS: string[] = [
+  PANEL_PERMISSIONS.CUSTOMER
+];
 
 const ADMIN_PERMISSIONS: string[] = [
   PANEL_PERMISSIONS.ADMIN,
-
-  USER_PERMISSIONS.CREATE,
-  USER_PERMISSIONS.DELETE,
-  USER_PERMISSIONS.FETCH,
-  USER_PERMISSIONS.UPDATE,
+  ...(Object.values(USER_PERMISSIONS))
 ];
 
-export const ALL_PERMISSIONS: string[] = [...CUSTOMER_PERMISSIONS, ...ADMIN_PERMISSIONS];
+export const ALL_PERMISSIONS: string[] = [
+  ...CUSTOMER_PERMISSIONS,
+  ...ADMIN_PERMISSIONS
+];
+
+// -------------------------------------------------------------------------------------------------
+// Initial Roles
+// -------------------------------------------------------------------------------------------------
 
 const CustomerRole = {
   name: IRolesEnum.CUSTOMER,

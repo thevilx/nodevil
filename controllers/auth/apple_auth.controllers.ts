@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { AppConfig } from '../../config/app_config';
+import { AppConfig } from '../../config/app/app_config';
 import appleSignin from 'apple-signin-auth';
 import { generateToken } from '../../utils/jwt';
 import { UserCrud } from '../../models/user/user.cruds';
@@ -7,12 +7,13 @@ import { IRolesEnum } from '../../models/role/roles.enum';
 import { getCookieOptions } from '../../utils/general';
 import { UserRegisteredWith } from '../../models/user/user.enums';
 import { RoleService } from '../../services/role.service';
+import { UnExpectedError } from '../../utils/errors';
 
 export default class AppleAuthController {
   static async createAuthUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const authorizationUrl = appleSignin.getAuthorizationUrl({
-        clientID: AppConfig.APPLE_CLIENT_ID,
+        clientID: AppConfig.APPLE_CLIENT_ID || "",
         redirectUri: AppConfig.SERVER_URL + '/auth/apple/callback',
         responseMode: 'form_post',
         scope: 'email',
@@ -26,6 +27,11 @@ export default class AppleAuthController {
 
   static async appleAuthCallbackHandler(req: Request, res: Response, next: NextFunction) {
     const code = req.body.code;
+
+
+    if (!AppConfig.APPLE_CLIENT_ID || !AppConfig.APPLE_TEAM_ID || !AppConfig.APPLE_KEY_ID || !AppConfig.APPLE_PRIVATE_KEY) {
+      throw new UnExpectedError('Apple SignIn not configured properly');
+    }
 
     const clientSecret = appleSignin.getClientSecret({
       clientID: AppConfig.APPLE_CLIENT_ID,

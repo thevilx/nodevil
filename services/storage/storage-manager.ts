@@ -1,9 +1,9 @@
-import { AppConfig } from '../../config/app_config';
 import { StorageDriverInterface } from './storage-driver';
 import { S3Driver } from './drivers/s3-driver';
 import { LocalDriver } from './drivers/local-driver';
 import { BadRequestError } from '../../utils/errors';
 import { i18n } from '../../config/i18n/i18n';
+import { AppConfig } from '../../config/app/app_config';
 
 export class StorageManager {
   private static instance: StorageManager;

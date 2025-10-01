@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import Joi from 'joi';
-import { AppConfig } from '../../config/app_config';
+import { AppConfig } from '../../config/app/app_config';
 import { i18n } from '../../config/i18n/i18n';
 import { VerificationService } from '../../services/auth/verify_phone.service';
 import { getCookieOptions, validateJOI } from '../../utils/general';

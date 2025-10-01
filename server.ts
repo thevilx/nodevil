@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import ConnectToMongo from './models/setup_mongoose';
 
 import app from './app';
-import { AppConfig } from './config/app_config';
+import { AppConfig } from './config/app/app_config';
 import './models/models_importer.models';
 
 async function gracefulShutdown(exitCode = 0) {

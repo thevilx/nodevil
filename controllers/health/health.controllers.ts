@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { AppConfig } from '../../config/app_config';
+import { AppConfig } from '../../config/app/app_config';
 import logger from '../../config/logger';
 
 export const getHealthCheck = async (req: Request, res: Response): Promise<void> => {

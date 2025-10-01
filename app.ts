@@ -9,11 +9,16 @@ import apiRouter from './apis/index.api';
 import express from 'express';
 import appErrorHandler from './middlewares/error_handler.middleware';
 import i18nMiddleware from './middlewares/i18n.middleware';
-import { AppConfig } from './config/app_config';
+import { AppConfig } from './config/app/app_config';
 import logger from './config/logger';
 import swaggerSpecs from './config/swagger';
+import { validateConfig } from './config/app/app_config.validation';
+import { UnExpectedError } from './utils/errors';
 
 const app = express();
+
+// validate env variables config
+validateConfig()
 
 // Security middlewares
 app.use(
@@ -60,10 +65,11 @@ app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Serve local uploads if using local storage driver
 if (AppConfig.STORAGE_DRIVER === 'local') {
+  if (!AppConfig.LOCAL_STORAGE_PATH || !AppConfig.LOCAL_STORAGE_URL) {
+    throw new UnExpectedError('Local storage is not properly configured');
+  }
   app.use(AppConfig.LOCAL_STORAGE_URL, express.static(path.resolve(AppConfig.LOCAL_STORAGE_PATH)));
 }
 
@@ -71,7 +77,7 @@ if (AppConfig.STORAGE_DRIVER === 'local') {
 app.use(i18nMiddleware);
 
 // Swagger documentation
-if (AppConfig.NODE_ENV !== 'production') {
+if (!AppConfig.iS_PRODUCTION) {
   app.use(
     '/api-docs',
     swaggerUi.serve,

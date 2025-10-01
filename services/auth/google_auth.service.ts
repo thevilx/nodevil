@@ -1,5 +1,6 @@
 import { OAuth2Client } from 'google-auth-library';
-import { AppConfig } from '../../config/app_config';
+import { AppConfig } from '../../config/app/app_config';
+import { UnExpectedError } from '../../utils/errors';
 
 // Static class
 export class GoogleAuthService {
@@ -27,6 +28,15 @@ export class GoogleAuthService {
    * @returns The authorization URL.
    */
   public static generateAuthUrl() {
+
+    if (!AppConfig.GOOGLE_CLIENT_ID) {
+      throw new UnExpectedError('Google Client ID is not configured');
+    }
+
+    if (!AppConfig.GOOGLE_CLIENT_SECRET) {
+      throw new UnExpectedError('Google Client Secret is not configured');
+    }
+
     return this.client.generateAuthUrl({
       access_type: 'offline',
       scope: ['profile', 'email'],

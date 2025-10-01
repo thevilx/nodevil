@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { AppConfig } from '../../config/app_config';
+import { AppConfig } from '../../config/app/app_config';
 import { IRolesEnum } from '../../models/role/roles.enum';
 import { UserCrud } from '../../models/user/user.cruds';
 import { UserRegisteredWith } from '../../models/user/user.enums';
