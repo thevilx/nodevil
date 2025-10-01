@@ -43,6 +43,27 @@ Create new models instantly with the built-in generator:
 npm run create-model User
 ```
 
+### Advanced Options
+
+The model generator supports several options for enhanced development workflow:
+
+```bash
+# Generate model with controller and API routes
+npm run create-model Product --controller --api
+
+# Generate without permissions
+npm run create-model Product --no-permissions
+
+# Force overwrite existing model
+npm run create-model Product --force
+```
+
+**Available Options:**
+- `-c, --controller` - Generate controller file with CRUD methods
+- `-a, --api` - Generate API routes file with authentication
+- `--no-permissions` - Skip permissions generation
+- `-f, --force` - Overwrite existing files
+
 This command generates a complete model structure:
 
 ```
@@ -52,6 +73,15 @@ models/user/
 ├── user.cruds.ts       # CRUD operations class
 ├── user.enums.ts       # Enums and constants
 └── user.permissions.ts # Permission definitions
+```
+
+Additional files when using options:
+```
+controllers/user/
+└── user.controllers.ts # Controller methods (with --controller)
+
+apis/user/
+└── user.apis.ts        # API routes (with --api)
 ```
 
 ### Generated CRUD Usage
@@ -86,6 +116,36 @@ await UserCrud.deleteById(id);
 ```
 Please read the `models/crud.ts` for full functions and their descriptions
 
+## Model Removal
+
+Remove existing models and clean up all associated files:
+
+```bash
+npm run remove-model User
+```
+
+### Removal Options
+
+```bash
+# Force removal without confirmation
+npm run remove-model Product --force
+
+# Keep database collection (don't drop from MongoDB)
+npm run remove-model Product --keep-database
+```
+
+**Available Options:**
+- `-f, --force` - Force removal without confirmation
+- `-k, --keep-database` - Keep database collections (don't drop)
+
+**What gets removed:**
+- Model directory and all files (schema, interface, CRUD, permissions)
+- Controller files (if they exist)
+- API route files (if they exist)
+- Import statements from models_importer.models.ts
+- Translation keys from translation files
+- Database collection instructions (manual removal required)
+
 ## Key Features
 
 ### Authentication & Authorization
@@ -117,6 +177,7 @@ const result = await storage.getDriver().uploadFile(file, 'uploads/');
 - `npm run build` - Build for production
 - `npm run test` - Run tests
 - `npm run create-model <MODEL_NAME>` - Generate new model
+- `npm run remove-model <MODEL_NAME>` - Remove existing model
 - `npm run docker:up` - Start with Docker
 
 ## Environment Variables
@@ -141,7 +202,3 @@ Create `.env` from `.env.example` and configure:
 ├── config/           # App configuration
 └── locales/          # Translation files
 ```
-
-## License
-
-ISC License

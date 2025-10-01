@@ -17,7 +17,8 @@
   ],
   "main": "dist/server.js",
   "scripts": {
-    "create-model": "ts-node snippets/create_model.script.ts",
+    "create-model": "ts-node snippets/create_model.snippet.ts",
+    "remove-model": "ts-node snippets/remove_model.snippet.ts",
     "build": "tsc",
     "dev": "nodemon --exec ts-node --files server.ts",
     "start": "node dist/server.js",

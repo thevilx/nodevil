@@ -4,7 +4,7 @@ export type TranslationKeys = {
   'register-successful': string;
   'user-not-found': string;
   'no-file-received': string;
-  role_not_found: string;
+  'role_not_found': string;
   'invalid-file-type-upload-only-image': string;
   'unmatch-password': string;
   'your-account-is-disabled': string;
@@ -20,11 +20,12 @@ export type TranslationKeys = {
   'verification-code-has-been-sent': string;
   'verification-request-not-found': string;
   'test-not-found': string;
-
+  'product-created-successfully': string;
+  'product-updated-successfully': string;
+  'product-deleted-successfully': string;
   'errors.unexpected': string;
   'errors.unauthorized-access': string;
 };
-
 export const JOI_EN_TRANSLATION = {
   // ----------------------------------
   // Any (base) validation messages
@@ -36,7 +37,6 @@ export const JOI_EN_TRANSLATION = {
   'any.only': '{#label} must be {#valids}',
   'any.default': '{#label} threw an error when running default method',
   'any.failover': '{#label} threw an error when running failover method',
-
   // ----------------------------------
   // String validation messages
   // ----------------------------------
@@ -65,7 +65,6 @@ export const JOI_EN_TRANSLATION = {
   'string.ip': '{#label} must be a valid IP address with a {#cidr} CIDR',
   'string.ipVersion':
     '{#label} must be a valid IP address of one of the following versions {#version} with a {#cidr} CIDR',
-
   // ----------------------------------
   // Number validation messages
   // ----------------------------------
@@ -82,7 +81,6 @@ export const JOI_EN_TRANSLATION = {
   'number.multiple': '{#label} must be a multiple of {#multiple}',
   'number.port': '{#label} must be a valid port number',
   'number.unsafe': '{#label} must be a safe number',
-
   // ----------------------------------
   // Date validation messages
   // ----------------------------------
@@ -94,7 +92,6 @@ export const JOI_EN_TRANSLATION = {
   'date.iso': '{#label} must be a valid ISO 8601 date',
   'date.ref': '{#label} references an invalid date',
   'date.strict': '{#label} contains an invalid date',
-
   // ----------------------------------
   // Array validation messages
   // ----------------------------------
@@ -111,7 +108,6 @@ export const JOI_EN_TRANSLATION = {
   'array.sort': '{#label} must be sorted in {#order} order by {#by}',
   'array.sort.unsupported': '{#label} cannot be sorted by "{#by}"',
   'array.single': '{#label} must contain a single value',
-
   // ----------------------------------
   // Object validation messages
   // ----------------------------------
@@ -137,13 +133,11 @@ export const JOI_EN_TRANSLATION = {
   'object.rename.regex.override':
     '{#label} cannot rename "{#from}" because override is disabled and target "{#to}" exists',
   'object.schema': '{#label} must be a Joi schema of type {#type}',
-
   // ----------------------------------
   // Boolean validation messages
   // ----------------------------------
   'boolean.base': '{#label} must be a boolean',
   'boolean.empty': '{#label} cannot be empty',
-
   // ----------------------------------
   // Binary validation messages
   // ----------------------------------
@@ -152,7 +146,6 @@ export const JOI_EN_TRANSLATION = {
   'binary.min': '{#label} must be at least {#limit} bytes',
   'binary.max': '{#label} must be at most {#limit} bytes',
   'binary.length': '{#label} must be exactly {#limit} bytes',
-
   // ----------------------------------
   // Alternatives validation messages
   // ----------------------------------
@@ -161,7 +154,6 @@ export const JOI_EN_TRANSLATION = {
   'alternatives.match': '{#label} does not match any of the allowed types',
   'alternatives.one': '{#label} matches more than one allowed type',
   'alternatives.all': '{#label} does not match all of the required types',
-
   // ----------------------------------
   // Conditional validation messages
   // ----------------------------------
@@ -171,7 +163,6 @@ export const JOI_EN_TRANSLATION = {
   'conditional.switch': '{#label} failed conditional validation for case {#case}',
   'conditional.then': '{#label} failed "then" validation',
   'conditional.otherwise': '{#label} failed "otherwise" validation',
-
   // ----------------------------------
   // Reference validation messages
   // ----------------------------------
@@ -183,7 +174,6 @@ export const JOI_EN_TRANSLATION = {
   'ref.exist': '{#label} must reference an existing value',
   'ref.self': '{#label} cannot reference itself',
 };
-
 export const JOI_AR_TRANSLATION = {
   // ----------------------------------
   // Any (base) validation messages
@@ -195,7 +185,6 @@ export const JOI_AR_TRANSLATION = {
   'any.only': '{#label} يجب أن يكون {#valids}',
   'any.default': '{#label} حدث خطأ أثناء تشغيل الطريقة الافتراضية',
   'any.failover': '{#label} حدث خطأ أثناء تشغيل طريقة failover',
-
   // ----------------------------------
   // String validation messages
   // ----------------------------------
@@ -223,7 +212,6 @@ export const JOI_AR_TRANSLATION = {
   'string.ip': '{#label} يجب أن يكون عنوان IP صالحًا مع CIDR {#cidr}',
   'string.ipVersion':
     '{#label} يجب أن يكون عنوان IP صالحًا بإحدى النسخ التالية {#version} مع CIDR {#cidr}',
-
   // ----------------------------------
   // Number validation messages
   // ----------------------------------
@@ -240,7 +228,6 @@ export const JOI_AR_TRANSLATION = {
   'number.multiple': '{#label} يجب أن يكون مضاعفًا لـ {#multiple}',
   'number.port': '{#label} يجب أن يكون رقم منفذ صالحًا',
   'number.unsafe': '{#label} يجب أن يكون رقمًا آمنًا',
-
   // ----------------------------------
   // Date validation messages
   // ----------------------------------
@@ -252,7 +239,6 @@ export const JOI_AR_TRANSLATION = {
   'date.iso': '{#label} يجب أن يكون تاريخ ISO 8601 صالحًا',
   'date.ref': '{#label} يشير إلى تاريخ غير صالح',
   'date.strict': '{#label} يحتوي على تاريخ غير صالح',
-
   // ----------------------------------
   // Array validation messages
   // ----------------------------------
@@ -268,7 +254,6 @@ export const JOI_AR_TRANSLATION = {
   'array.sort': '{#label} يجب أن يتم فرزها بترتيب {#order} حسب {#by}',
   'array.sort.unsupported': '{#label} لا يمكن فرزه حسب "{#by}"',
   'array.single': '{#label} يجب أن يحتوي على قيمة واحدة',
-
   // ----------------------------------
   // Object validation messages
   // ----------------------------------
@@ -294,13 +279,11 @@ export const JOI_AR_TRANSLATION = {
   'object.rename.regex.override':
     '{#label} لا يمكن إعادة تسمية "{#from}" لأن التجاوز معطل والهدف "{#to}" موجود',
   'object.schema': '{#label} يجب أن يكون مخطط Joi من النوع {#type}',
-
   // ----------------------------------
   // Boolean validation messages
   // ----------------------------------
   'boolean.base': '{#label} يجب أن يكون قيمة منطقية',
   'boolean.empty': '{#label} لا يمكن أن يكون فارغًا',
-
   // ----------------------------------
   // Binary validation messages
   // ----------------------------------
@@ -309,7 +292,6 @@ export const JOI_AR_TRANSLATION = {
   'binary.min': '{#label} يجب أن يكون على الأقل {#limit} بايت',
   'binary.max': '{#label} يجب أن يكون على الأكثر {#limit} بايت',
   'binary.length': '{#label} يجب أن يكون بالضبط {#limit} بايت',
-
   // ----------------------------------
   // Alternatives validation messages
   // ----------------------------------
@@ -318,7 +300,6 @@ export const JOI_AR_TRANSLATION = {
   'alternatives.match': '{#label} لا يتطابق مع أي من الأنواع المسموح بها',
   'alternatives.one': '{#label} يتطابق مع أكثر من نوع مسموح به',
   'alternatives.all': '{#label} لا يتطابق مع كل الأنواع المطلوبة',
-
   // ----------------------------------
   // Conditional validation messages
   // ----------------------------------
@@ -328,7 +309,6 @@ export const JOI_AR_TRANSLATION = {
   'conditional.switch': '{#label} فشل في التحقق الشرطي للحالة {#case}',
   'conditional.then': '{#label} فشل في التحقق "then"',
   'conditional.otherwise': '{#label} فشل في التحقق "otherwise"',
-
   // ----------------------------------
   // Reference validation messages
   // ----------------------------------
