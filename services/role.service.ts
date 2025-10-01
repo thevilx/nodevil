@@ -1,5 +1,5 @@
 import { i18n } from '../config/i18n/i18n';
-import { INITIAL_ROLES, ALL_PERMISSIONS } from '../config/role_and_permissions.config';
+import { INITIAL_ROLES, ALL_PERMISSIONS } from '../config/role_permissions.config';
 import { IPermission } from '../models/permission/permission';
 import Permission from '../models/permission/permission.schema';
 import { IRole } from '../models/role/role';

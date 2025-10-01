@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { PANEL_PERMISSIONS } from '../../../config/role_and_permissions.config';
+import { PANEL_PERMISSIONS } from '../../../config/role_permissions.config';
 import authMiddleware from '../../../middlewares/auth.middleware';
 import { MiniProfileController } from '../../../controllers/general/mini_profile.controllers';
 

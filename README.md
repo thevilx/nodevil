@@ -321,14 +321,23 @@ const storage = StorageManager.getInstance();
 const result = await storage.getDriver().uploadFile(file, 'uploads/');
 ```
 
-## Available Scripts
+## Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run test` - Run tests
-- `npm run create-model <MODEL_NAME>` - Generate new model
-- `npm run remove-model <MODEL_NAME>` - Remove existing model
-- `npm run docker:up` - Start with Docker
+The project includes utility scripts in the `scripts/` folder for database setup and maintenance:
+
+### Running Scripts
+
+Execute scripts using ts-node:
+
+```bash
+# Set up roles and permissions
+npx ts-node scripts/role_permission_setup.script.ts
+```
+Sets  up role and permissions defined in `config/role_permissions.config.ts`
+```bash
+# creates a admin user with credential defined in that file
+npx ts-node scripts/create_admin.script.ts
+```
 
 ## Environment Variables
 
@@ -340,6 +349,8 @@ Create `.env` from `.env.example` and configure:
 | `JWT_SECRET` | Yes | JWT signing secret (min 32 chars) |
 | `PORT` | No | Server port (default: 8000) |
 | `STORAGE_DRIVER` | No | 'local' or 's3' (default: local) |
+
+there are many more options to discover ir .env.example
 
 ## Project Structure
 
