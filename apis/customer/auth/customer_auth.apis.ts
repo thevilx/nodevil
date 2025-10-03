@@ -4,8 +4,12 @@ import { CustomerAuthController } from '../../../controllers/customer/customer_a
 
 const router = Router();
 
-router.post('/send-verification-code', CustomerAuthController.sendVerificationCode);
-router.post('/verify-code', CustomerAuthController.verifyVerificationCode);
+
+router.post('/login', CustomerAuthController.login);
+router.post('/register', CustomerAuthController.register);
+
+// router.post('/send-verification-code', CustomerAuthController.sendVerificationCode);
+// router.post('/verify-code', CustomerAuthController.verifyVerificationCode);
 
 router.post('/logout', authMiddleware(), CustomerAuthController.logout);
 
