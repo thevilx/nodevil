@@ -26,7 +26,9 @@ if (!modelName) {
 
 // Utility functions for case conversion
 const toPascalCase = (str: string): string => {
-  return str.replace(/(?:^|[-_])([a-z])/g, (_, char) => char.toUpperCase());
+  return str
+    .replace(/[-_](.)/g, (_, char) => char.toUpperCase())
+    .replace(/^(.)/, (_, char) => char.toUpperCase());
 };
 
 const toCamelCase = (str: string): string => {
@@ -121,8 +123,9 @@ const ModelName = toPascalCase(modelName);
 const camelCasedModelName = toCamelCase(modelName);
 const kebabCaseModelName = toKebabCase(modelName);
 const snakeCaseModelName = toSnakeCase(modelName);
-const upperCaseModelName = toUpperCase(ModelName);
-const pluralUpperCase = pluralize(ModelName);
+const upperCaseModelName = toSnakeCase(modelName).toUpperCase();
+const pluralUpperCase = pluralize(snakeCaseModelName);
+
 
 const modelDir = path.join(__dirname, '../models', toLowerCase(modelName));
 
@@ -261,7 +264,7 @@ export class ${ModelName}Controller {
 
             const { page, pageSize } = extractPaginationFieldsFromQuery(req.query);
 
-            const data = ${ModelName}Crud.paginate({
+            const data = await ${ModelName}Crud.paginate({
                 page,
                 pageSize
             })
