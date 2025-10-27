@@ -19,7 +19,8 @@ export interface GoogleAuthResponse {
 }
 
 export class GoogleAuthController {
-  static async getGoogleAuthUrl(req: Request, res: Response, next: NextFunction) {
+
+  static async getAuthUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const authUrl = GoogleAuthService.generateAuthUrl();
 
@@ -29,7 +30,7 @@ export class GoogleAuthController {
     }
   }
 
-  static async googleAuthCallBack(req: Request, res: Response, next: NextFunction) {
+  static async callbackHandler(req: Request, res: Response, next: NextFunction) {
     try {
       const code = req.query.code;
 

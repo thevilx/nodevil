@@ -10,7 +10,7 @@ import { RoleService } from '../../services/role.service';
 import { UnExpectedError } from '../../utils/errors';
 
 export default class AppleAuthController {
-  static async createAuthUrl(req: Request, res: Response, next: NextFunction) {
+  static async getAuthUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const authorizationUrl = appleSignin.getAuthorizationUrl({
         clientID: AppConfig.APPLE_CLIENT_ID || "",
@@ -25,7 +25,7 @@ export default class AppleAuthController {
     }
   }
 
-  static async appleAuthCallbackHandler(req: Request, res: Response, next: NextFunction) {
+  static async callbackHandler(req: Request, res: Response, next: NextFunction) {
     const code = req.body.code;
 
 
