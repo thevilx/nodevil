@@ -409,7 +409,7 @@ export class Crud<T> {
     return await this.model.countDocuments(filter);
   }
 
-  async assertUserOwnsResource(id: string, user_id: string, model_user_key: string = 'user') {
+  async assertUserOwnsResource(id: string, user_id: string, model_user_key: keyof T) {
     const data: any = await this.findById(id);
 
     if (!data[model_user_key]) {

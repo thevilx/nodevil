@@ -463,7 +463,7 @@ describe.skip('BaseCrud', () => {
       });
 
       // Act & Assert
-      await expect(TestCrud.assertUserOwnsResource(created._id!, userId)).resolves.not.toThrow();
+      await expect(TestCrud.assertUserOwnsResource(created._id!, userId, "user")).resolves.not.toThrow();
     });
 
     it('should throw ForbiddenError if user does not own resource', async () => {
@@ -476,7 +476,7 @@ describe.skip('BaseCrud', () => {
       });
 
       // Act & Assert
-      await expect(TestCrud.assertUserOwnsResource(created._id!, otherId)).rejects.toThrow(
+      await expect(TestCrud.assertUserOwnsResource(created._id!, otherId, "user")).rejects.toThrow(
         ForbiddenError
       );
     });
