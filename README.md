@@ -16,7 +16,7 @@ its currently underdevelopment and could face some bugs, any contribution is wel
 
 ### Manual Setup
 ```bash
-git clone <repository-url>
+git clone git@github.com:thevilx/nodevil.git
 cd nodevil
 npm install
 cp .env.example .env
@@ -26,7 +26,7 @@ npm run dev
 
 ### Docker Setup
 ```bash
-git clone <repository-url>
+git clone git@github.com:thevilx/nodevil.git
 cd nodevil
 cp .env.example .env
 # Edit .env with your configuration
