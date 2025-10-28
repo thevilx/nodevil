@@ -8,6 +8,7 @@ import { getCookieOptions } from '../../utils/general';
 import { UserRegisteredWith } from '../../models/user/user.enums';
 import { RoleService } from '../../services/role.service';
 import { UnExpectedError } from '../../utils/errors';
+import { AppleAuthService } from '../../services/auth/apple_auth.service';
 
 export default class AppleAuthController {
 
@@ -15,12 +16,8 @@ export default class AppleAuthController {
 
   static async getAuthUrl(req: Request, res: Response, next: NextFunction) {
     try {
-      const authorizationUrl = appleSignin.getAuthorizationUrl({
-        clientID: AppConfig.APPLE_CLIENT_ID || "",
-        redirectUri: this.redirectUri,
-        responseMode: 'form_post',
-        scope: 'email',
-      });
+
+      const authorizationUrl = AppleAuthService.generateAuthUrl();
 
       res.json({ url: authorizationUrl });
     } catch (err) {
@@ -29,36 +26,13 @@ export default class AppleAuthController {
   }
 
   static async callbackHandler(req: Request, res: Response, next: NextFunction) {
-    const code = req.body.code;
-
-
-    if (!AppConfig.APPLE_CLIENT_ID || !AppConfig.APPLE_TEAM_ID || !AppConfig.APPLE_KEY_ID || !AppConfig.APPLE_PRIVATE_KEY) {
-      throw new UnExpectedError('Apple SignIn not configured properly');
-    }
-
-    const clientSecret = appleSignin.getClientSecret({
-      clientID: AppConfig.APPLE_CLIENT_ID,
-      teamID: AppConfig.APPLE_TEAM_ID,
-      privateKey: AppConfig.APPLE_PRIVATE_KEY,
-      keyIdentifier: AppConfig.APPLE_KEY_ID,
-    });
-
-    const options = {
-      clientID: AppConfig.APPLE_CLIENT_ID,
-      redirectUri: this.redirectUri,
-      clientSecret: clientSecret,
-    };
-
     try {
-      const tokenResponse = await appleSignin.getAuthorizationToken(code, options);
+      const code = req.body.code;
 
-      const jwtClaims = await appleSignin.verifyIdToken(tokenResponse.id_token, {
-        audience: AppConfig.APPLE_CLIENT_ID,
-        ignoreExpiration: false,
-      });
+      const tokenResponse = await AppleAuthService.verifyAppleLoginCode(code);
 
-      const userAppleId = jwtClaims.sub;
-      const userEmail = jwtClaims.email;
+      const userAppleId = tokenResponse.sub;
+      const userEmail = tokenResponse.email;
 
       const existingUser = await UserCrud.tryFindOne({
         $or: [{ email: userEmail }, { apple_sub: userAppleId }],
