@@ -4,10 +4,13 @@ import { UnExpectedError } from '../../utils/errors';
 
 // Static class
 export class GoogleAuthService {
+
+  private static readonly redirectUri = AppConfig.SERVER_URL + '/customer/auth/google/callback';
+
   private static readonly client = new OAuth2Client(
     AppConfig.GOOGLE_CLIENT_ID,
     AppConfig.GOOGLE_CLIENT_SECRET,
-    AppConfig.SERVER_URL + '/auth/google/callback'
+    this.redirectUri
   );
 
   /**

@@ -50,7 +50,7 @@ export class GoogleAuthController {
       }
 
       // Check if user already exists
-      const user = await UserCrud.findOne({
+      const user = await UserCrud.tryFindOne({
         $or: [{ email: email }, { google_token_id: sub }],
       });
 

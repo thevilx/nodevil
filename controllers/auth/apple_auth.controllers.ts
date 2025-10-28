@@ -10,11 +10,14 @@ import { RoleService } from '../../services/role.service';
 import { UnExpectedError } from '../../utils/errors';
 
 export default class AppleAuthController {
+
+  static redirectUri = AppConfig.SERVER_URL + '/customer/auth/apple/callback';
+
   static async getAuthUrl(req: Request, res: Response, next: NextFunction) {
     try {
       const authorizationUrl = appleSignin.getAuthorizationUrl({
         clientID: AppConfig.APPLE_CLIENT_ID || "",
-        redirectUri: AppConfig.SERVER_URL + '/auth/apple/callback',
+        redirectUri: this.redirectUri,
         responseMode: 'form_post',
         scope: 'email',
       });
@@ -42,7 +45,7 @@ export default class AppleAuthController {
 
     const options = {
       clientID: AppConfig.APPLE_CLIENT_ID,
-      redirectUri: AppConfig.SERVER_URL + '/auth/apple/callback',
+      redirectUri: this.redirectUri,
       clientSecret: clientSecret,
     };
 
@@ -57,7 +60,7 @@ export default class AppleAuthController {
       const userAppleId = jwtClaims.sub;
       const userEmail = jwtClaims.email;
 
-      const existingUser = await UserCrud.findOne({
+      const existingUser = await UserCrud.tryFindOne({
         $or: [{ email: userEmail }, { apple_sub: userAppleId }],
       });
 
