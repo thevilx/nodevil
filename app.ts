@@ -9,6 +9,8 @@ import apiRouter from './apis/index.api';
 import express from 'express';
 import appErrorHandler from './middlewares/error_handler.middleware';
 import i18nMiddleware from './middlewares/i18n.middleware';
+import { prometheusMiddleware } from './middlewares/prometheus.middleware';
+import { register } from './config/prometheus.config';
 import { AppConfig } from './config/app/app_config';
 import logger from './config/logger';
 import swaggerSpecs from './config/swagger';
@@ -75,6 +77,25 @@ if (AppConfig.STORAGE_DRIVER === 'local') {
 
 // handle set language based on the cookie or header info
 app.use(i18nMiddleware);
+
+// Prometheus metrics middleware
+app.use(prometheusMiddleware);
+
+// Metrics endpoint for Prometheus scraping
+app.get('/metrics', async (req, res) => {
+  try {
+    res.set('Content-Type', register.contentType);
+    const metrics = await register.metrics();
+    res.end(metrics);
+  } catch (error) {
+    res.status(500).end(error);
+  }
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+});
 
 // Swagger documentation
 if (!AppConfig.iS_PRODUCTION) {
