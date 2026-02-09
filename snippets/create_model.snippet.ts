@@ -127,7 +127,7 @@ const upperCaseModelName = toSnakeCase(modelName).toUpperCase();
 const pluralUpperCase = pluralize(snakeCaseModelName);
 
 
-const modelDir = path.join(__dirname, '../models', toLowerCase(modelName));
+const modelDir = path.join(__dirname, '../src/models', toLowerCase(modelName));
 
 if (fs.existsSync(modelDir) && !options.force) {
   console.error(`❌ Model "${ModelName}" already exists. Use --force to overwrite.`);

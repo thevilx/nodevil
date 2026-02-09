@@ -30,8 +30,8 @@ const toLowerCase = (str: string): string => str.toLowerCase();
 
 const toKebabCase = (str: string): string => {
   return str.replace(/([a-z])([A-Z])/g, '$1-$2')
-            .replace(/[_\s]+/g, '-')
-            .toLowerCase();
+    .replace(/[_\s]+/g, '-')
+    .toLowerCase();
 };
 
 // Validate model name format
@@ -40,12 +40,12 @@ const validateModelName = (name: string): void => {
     console.error('❌ Model name must start with a letter and contain only letters, numbers, and underscores.');
     process.exit(1);
   }
-  
+
   if (name.length < 2) {
     console.error('❌ Model name must be at least 2 characters long.');
     process.exit(1);
   }
-  
+
   if (name.length > 50) {
     console.error('❌ Model name must be less than 50 characters long.');
     process.exit(1);
@@ -57,7 +57,7 @@ validateModelName(modelName);
 
 const ModelName = toPascalCase(modelName);
 const kebabCaseModelName = toKebabCase(modelName);
-const modelDir = path.join(__dirname, '../models', toLowerCase(modelName));
+const modelDir = path.join(__dirname, '../src/models', toLowerCase(modelName));
 
 // Helper function for user confirmation
 const askConfirmation = (question: string): Promise<boolean> => {
@@ -96,9 +96,9 @@ async function removeModel() {
       console.log(`  - Database collection for ${ModelName}`);
     }
     console.log('\n❌ This action cannot be undone!');
-    
+
     const confirmed = await askConfirmation('Are you sure you want to continue? (y/N): ');
-    
+
     if (!confirmed) {
       console.log('❌ Model removal cancelled.');
       process.exit(0);
@@ -141,17 +141,17 @@ async function removeModel() {
 
   // Remove from models importer
   try {
-    const importPath = path.join(__dirname, '../models/models_importer.models.ts');
-    
+    const importPath = path.join(__dirname, '../src/models/models_importer.models.ts');
+
     if (fs.existsSync(importPath)) {
       let importerContent = fs.readFileSync(importPath, 'utf8');
       const importLine = `import './${toLowerCase(modelName)}/${toLowerCase(modelName)}.schema';`;
-      
+
       // Remove the import line
       importerContent = importerContent.replace(importLine, '');
       // Clean up any extra newlines
       importerContent = importerContent.replace(/\n\n+/g, '\n').trim() + '\n';
-      
+
       fs.writeFileSync(importPath, importerContent);
       console.log(`✅ Removed import for "${ModelName}" from models_importer.models.ts`);
     }
@@ -163,39 +163,39 @@ async function removeModel() {
   try {
     const translationKeyPath = path.join(__dirname, '../config/i18n/translation_keys.ts');
     const translationKey = `${kebabCaseModelName}-not-found`;
-    
+
     if (fs.existsSync(translationKeyPath)) {
       let content = fs.readFileSync(translationKeyPath, 'utf8');
-      
+
       // Remove the translation key from the interface
       const keyLine = `  '${translationKey}': string;`;
       content = content.replace(keyLine, '');
       // Clean up extra newlines
       content = content.replace(/\n\n+/g, '\n');
-      
+
       fs.writeFileSync(translationKeyPath, content);
       console.log(`✅ Removed translation key "${translationKey}" from translation_keys.ts`);
     }
-    
+
     // Remove from English translations
     const enTranslationPath = path.join(__dirname, '../locales/en/translations.json');
     if (fs.existsSync(enTranslationPath)) {
       let enContent = fs.readFileSync(enTranslationPath, 'utf8');
       const enTranslations = JSON.parse(enContent);
-      
+
       if (enTranslations[translationKey]) {
         delete enTranslations[translationKey];
         fs.writeFileSync(enTranslationPath, JSON.stringify(enTranslations, null, 2) + '\n');
         console.log(`✅ Removed English translation for "${translationKey}"`);
       }
     }
-    
+
     // Remove from Arabic translations
     const arTranslationPath = path.join(__dirname, '../locales/ar/translations.json');
     if (fs.existsSync(arTranslationPath)) {
       let arContent = fs.readFileSync(arTranslationPath, 'utf8');
       const arTranslations = JSON.parse(arContent);
-      
+
       if (arTranslations[translationKey]) {
         delete arTranslations[translationKey];
         fs.writeFileSync(arTranslationPath, JSON.stringify(arTranslations, null, 2) + '\n');

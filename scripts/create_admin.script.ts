@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import { exit } from 'process';
-import { AppConfig } from '../config/app/app_config';
-import { IRolesEnum } from '../models/role/roles.enum';
-import { UserCrud } from '../models/user/user.cruds';
-import { RoleService } from '../services/role.service';
+import { AppConfig } from '../src/config/app/app_config';
+import { IRolesEnum } from '../src/models/role/roles.enum';
+import { UserCrud } from '../src/models/user/user.cruds';
+import { RoleService } from '../src/services/role.service';
 
 async function createAdminUser() {
   try {

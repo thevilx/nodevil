@@ -20,7 +20,7 @@
     "create-model": "ts-node snippets/create_model.snippet.ts",
     "remove-model": "ts-node snippets/remove_model.snippet.ts",
     "build": "tsc",
-    "dev": "nodemon --exec ts-node --files server.ts",
+    "dev": "nodemon --exec ts-node --files src/server.ts",
     "start": "node dist/server.js",
     "test": "cross-env NODE_ENV=test jest",
     "test:watch": "cross-env NODE_ENV=test jest --watch",
@@ -85,11 +85,9 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^3.0.0",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
-    "@types/express-jwt": "^7.4.4",
     "@types/jest": "^30.0.0",
     "@types/morgan": "^1.9.10",
     "@types/node": "^22.15.19",

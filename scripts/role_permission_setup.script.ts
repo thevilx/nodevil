@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { exit } from 'process';
-import { AppConfig } from '../config/app/app_config';
-import { RoleService } from '../services/role.service';
+import { AppConfig } from '../src/config/app/app_config';
+import { RoleService } from '../src/services/role.service';
 
 const MONGO_URI = AppConfig.MONGO_URI;
 

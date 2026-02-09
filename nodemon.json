@@ -1,5 +1,5 @@
 {
-  "exec": "ts-node server.ts",
+  "exec": "ts-node src/server.ts",
   "watch": ["./"],
   "ignore": ["dist", "node_modules", "routes", "swagger.json"],
   "ext": "ts"
